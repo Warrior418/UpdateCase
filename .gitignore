@@ -1,0 +1,42 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Binary files
+# bin/  # Commented out to include compiled binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with 'go test -c'
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Project specific
+logs/
+downloaded*.txt
+
+# Dependency directories (remove these if you want to check in your vendor directory)
+vendor/
+
+# Environment files
+.env
+*.env
+
+# Log files
+*.log
+
+# Temporary files
+temp/
+tmp/

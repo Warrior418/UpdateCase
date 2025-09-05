@@ -1,0 +1,149 @@
+
+services:
+  # API сервер с потоковой обработкой
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "8080:8080"
+    environment:
+      - API_PORT=8080
+      - STORAGE_SERVERS=storage1:8081,storage2:8082,storage3:8083,storage4:8084,storage5:8085,storage6:8086
+      - CHUNK_COUNT=6
+      - MAX_FILE_SIZE=10737418240  # 10 GiB
+    depends_on:
+      - storage1
+      - storage2
+      - storage3
+      - storage4
+      - storage5
+      - storage6
+    networks:
+      - storage-network
+    restart: unless-stopped
+    # Ограничиваем использование памяти
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  # Серверы хранения в памяти
+  storage1:
+    build:
+      context: .
+      dockerfile: Dockerfile.storage
+    environment:
+      - SERVER_ID=1
+      - STORAGE_PORT=8081
+    networks:
+      - storage-network
+    restart: unless-stopped
+    # Ограничиваем использование памяти
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  storage2:
+    build:
+      context: .
+      dockerfile: Dockerfile.storage
+    environment:
+      - SERVER_ID=2
+      - STORAGE_PORT=8082
+    networks:
+      - storage-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  storage3:
+    build:
+      context: .
+      dockerfile: Dockerfile.storage
+    environment:
+      - SERVER_ID=3
+      - STORAGE_PORT=8083
+    networks:
+      - storage-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  storage4:
+    build:
+      context: .
+      dockerfile: Dockerfile.storage
+    environment:
+      - SERVER_ID=4
+      - STORAGE_PORT=8084
+    networks:
+      - storage-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  storage5:
+    build:
+      context: .
+      dockerfile: Dockerfile.storage
+    environment:
+      - SERVER_ID=5
+      - STORAGE_PORT=8085
+    networks:
+      - storage-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  storage6:
+    build:
+      context: .
+      dockerfile: Dockerfile.storage
+    environment:
+      - SERVER_ID=6
+      - STORAGE_PORT=8086
+    networks:
+      - storage-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+networks:
+  storage-network:
+    driver: bridge
+
+# Мониторинг использования памяти
+x-memory-monitoring: &memory-monitoring
+  labels:
+    - "com.docker.compose.service.memory.monitoring=true"
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "3"
