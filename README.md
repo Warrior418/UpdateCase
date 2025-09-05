@@ -54,8 +54,8 @@
 
 ```bash
 # Клонируйте репозиторий
-git clone https://github.com/yourusername/TestCase.git
-cd TestCase
+git clone https://github.com/Warrior418/UpdateCase.git
+cd UpdateCase
 
 # Запуск системы
 ./start.sh
@@ -95,7 +95,7 @@ curl http://localhost:8080/health
 ## Структура проекта
 
 ```
-TestCase/
+UpdateCase/
 ├── cmd/                       # Точки входа приложений
 │   ├── api/                  # API сервер
 │   │   └── main.go          # Основной сервер
